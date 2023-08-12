@@ -1,0 +1,28 @@
+import { useNavigate } from "react-router-dom";
+
+import useAuth from "./useAuth";
+import axios from "../api/axios";
+
+const useRefreshToken = () => {
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+
+    const refresh = async () => {
+        try {
+            const response = await axios.get('/refresh', {
+                withCredentials: true
+            });
+
+            console.log("Getting a new access token... ");
+            setAuth(response.data);
+
+            return response.data.newAccessToken;
+        } catch (err) {
+            navigate("/auth");
+            console.log(err.response);
+        }
+    }
+    return refresh;
+}
+
+export default useRefreshToken;

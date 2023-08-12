@@ -1,0 +1,90 @@
+html,
+body {
+    margin: 0;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(360deg, #4348a7, #6A9AA5, #2c58a3, #15333e);
+    background-size: 100% 1000%;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    text-transform: none;
+    color: inherit;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    position: relative;
+
+    height: fit-content;
+    width: 350px;
+
+    padding: 8px;
+    border-radius: 15px;
+    border: 1px solid #FFF;
+    box-shadow: 1px 1px 3px;
+    background-image: linear-gradient(to bottom right, rgb(195, 195, 208), rgba(169, 184, 195, 0.754));
+    backdrop-filter: "blur(10px)";
+    box-shadow: 10px 10px 10px rgba(30, 30, 30, 0.5);
+
+    color: #000;
+    opacity: 0.8;
+
+    cursor: pointer;
+}
+
+.card>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 70%;
+    border-radius: 12px;
+
+    z-index: 5;
+}
+
+.card div {
+    z-index: 10;
+}
+
+.card>h5 {
+    opacity: 1;
+    color: #fff;
+    z-index: 10;
+}
+
+.card>div>.top {
+    height: 250px;
+}
+
+.disabled-btn {
+    background: grey !important;
+    color: #000 !important;
+    border: #000 2px solid !important;
+    opacity: 0.3;
+}
+
+.currency-input {
+    width: 100%;
+    height: 30px;
+
+    padding: 15px;
+
+    border-radius: 2px;
+
+    background-color: transparent;
+
+    margin-top: 10px;
+    font-size: 20px;
+}
