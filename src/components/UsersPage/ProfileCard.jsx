@@ -1,20 +1,21 @@
 import PropTypes from "prop-types";
 
 import { styled } from "styled-components";
-import CustomButton from "./CustomButton";
+import CustomButton from "../CustomButton";
 
-import itSupp from "../assets/itSupp.jpg"
+import itSupp from "../../assets/itSupp.jpg"
 import { Typography } from "@mui/material";
 
-const ProfileCard = ({ username, description }) => {
+const ProfileCard = ({ username, city, phone }) => {
     return (
         <CardContainer>
             <div className="gradient"></div>
             <div className="profile">
                 <img src={itSupp} alt="profile pic" />
                 <Typography variant="h5">{username}</Typography>
-                <Typography color="ActiveBorder" mb={2}>
-                    {description}
+                <Typography color="ActiveBorder" mb={2} textAlign="start">
+                    <strong>City</strong>: {city} <br />
+                    <strong>Phone</strong>: {phone}
                 </Typography>
                 <CustomButton
                     backgroundColor="#0F1B4C"
@@ -59,10 +60,6 @@ const CardContainer = styled.div`
             text-align: center;
         }
 
-        p {
-            padding-left: 20px;
-        }
-
         button {
             margin-bottom: -8px;
         }
@@ -71,7 +68,8 @@ const CardContainer = styled.div`
 
 ProfileCard.propTypes = {
     username: PropTypes.string,
-    description: PropTypes.string,
+    city: PropTypes.string,
+    phone: PropTypes.string,
 }
 
 export default ProfileCard;

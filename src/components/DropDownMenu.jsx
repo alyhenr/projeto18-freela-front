@@ -1,27 +1,59 @@
-import { Button } from "@mui/material";
-import { styled } from "styled-components";
+import { Link } from "react-router-dom";
+import { PropTypes } from "prop-types";
 
-const DropDownMenu = () => {
+import { styled } from "styled-components";
+import { Button, Stack } from "@mui/material";
+
+const DropDownMenu = ({ loggedIn }) => {
     return (
-        <Container>
-            <Button variant="outlined">Edit Profile</Button>
-            <Button variant="outlined">Logout</Button>
-        </Container>
+        <Stack sx={{
+            display: { xs: 'inherit', sm: 'none' }
+        }}>
+            <Container>
+                <Link to={"/catalog"}>
+                    <Button variant="outlined">
+                        EXPLORE
+                    </Button>
+                </Link>
+                <Link to={"/users"}>
+                    <Button variant="outlined">
+                        FIND A SAMURAI
+                    </Button>
+                </Link>
+                {loggedIn && <>
+                    <Link to={"/new-service"}>
+                        <Button variant="outlined">
+                            ADD A NEW SERVICE
+                        </Button>
+                    </Link>
+                    <Link to={"/dashboard"}>
+                        <Button variant="outlined">
+                            DASHBOARD
+                        </Button>
+                    </Link>
+                </>}
+            </Container>
+        </Stack>
     )
 };
 
 const Container = styled.div`
     position: fixed;
-    top: 20px;
-    right: 80px;
+    top: 70px;
+    left: 10px;
 
     display: flex;
     flex-direction: column;
     gap: 5px;
 
     button {
+        width: 100%;
         background: #FFF;
     }
 `;
 
-export default DropDownMenu
+DropDownMenu.propTypes = {
+    loggedIn: PropTypes.bool,
+};
+
+export default DropDownMenu;

@@ -30,7 +30,7 @@ const Wrapper = ({ children }) => {
             alignItems: 'center',
             justifyContent: 'center',
             height: '100%',
-            mt: 10,
+            mt: 2,
             p: 3,
         }}>
             <AnimatePresence>

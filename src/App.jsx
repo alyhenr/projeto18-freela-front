@@ -8,10 +8,10 @@ import AuthProvider from './context/AuthProvider';
 import LandingPage from './pages/LandingPage';
 import NavBar from './components/NavBar';
 
-//Not-authenticated
+//Non-authenticated
 import Authentication from './pages/Authentication';
-import Explore from './pages/Explore';
-import Users from './pages/Users';
+import Explore from './pages/Explore/Explore';
+import Users from './pages/Users/Users';
 
 //Authenticated Routes
 import DashBoard from './pages/DashBoard';

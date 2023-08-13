@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { styled } from "styled-components";
 import { TextField } from "@mui/material";
 
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const InitialContent = ({
     name, description, price, duration, categories, categoriesMap, setClicked, isClient, isProvider
@@ -298,7 +298,13 @@ const CardContainer = styled.div`
         }
     }
 
+    .initial {
+        position: relative;
+    }
+
     .active-contract {
+        width: 100%;
+        position: absolute;
         background-color: #A32728;
         color: #FFF;
     }
