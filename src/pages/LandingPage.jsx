@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Container, Box, styled, Typography } from "@mui/material";
 
 import CustomButton from "../components/CustomButton";
@@ -26,6 +27,8 @@ const LandingPage = () => {
         },
     }));
 
+    const navigate = useNavigate();
+
     return (
         <Box sx={{ backgroundColor: "#E6F0FF", height: "fit-content", p: '2px 20px 25px', borderRadius: '30px', mt: 2 }}>
             <Container>
@@ -52,12 +55,14 @@ const LandingPage = () => {
                         >
                             Create your account, become a samurai, offer your services and find other samurais to team up!
                         </Typography>
-                        <CustomButton
-                            backgroundColor="#0F1B4C"
-                            color="#fff"
-                            buttonText="Explore the skill-set available in our site"
-                            heroBtn={true}
-                        />
+                        <div onClick={() => { navigate("/explore"); }}>
+                            <CustomButton
+                                backgroundColor="#0F1B4C"
+                                color="#fff"
+                                buttonText="Explore the skill-set available in our site"
+                                heroBtn={true}
+                            />
+                        </div>
                     </Box>
                     <Box sx={{ flex: "1.25", width: { sm: '100%' } }}>
                         <Form />

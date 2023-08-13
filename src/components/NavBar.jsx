@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppBar, CssBaseline, Toolbar, Stack, Button, Divider, Typography, Avatar } from "@mui/material";
 
-import '@fontsource/roboto/500.css';
 import useAuth from "../hooks/useAuth";
+import DropDownMenu from "./DropDownMenu";
+
+import '@fontsource/roboto/500.css';
 
 const NavBar = () => {
     const navigate = useNavigate();
 
     const { auth, auth: { username } } = useAuth();
+
     const [loggedIn, setLoggedIn] = useState(false);
+    const [showDropDown, setShowDropDown] = useState(false);
 
     useEffect(() => { setLoggedIn(Object.keys(auth).length > 0) }, [auth])
 
@@ -56,32 +60,31 @@ const NavBar = () => {
                             </Link>
                         </>}
                     </Stack>
-                    <Button onClick={() => { loggedIn ? navigate("/profile") : navigate("/auth"); }}>
-                        {!loggedIn && <Typography
-                            variant="body2"
-                            color="AppWorkspace"
-                            sx={{
-                                display: {
-                                    xs: 'none',
-                                    sm: 'inline'
-                                }
-                            }}
-                        >SignIn / SignUp</Typography>}
-                        {
-                            loggedIn && <>
-                                <Avatar variant="circular" sx={{
-                                    display: { xs: 'none', sm: 'inherit' },
-                                    border: "2px solid #FFF",
-                                    width: '50px',
-                                    height: '50px'
-                                }}>
-                                    {username?.split(" ").length > 1
-                                        ? username.split(" ")[0][0] + username.split(" ")[1][0]
-                                        : username.slice(0, 2)}
-                                </Avatar>
-                            </>
-                        }
-                    </Button>
+                    {!loggedIn ? <Typography
+                        onClick={() => { navigate("/auth"); }}
+                        variant="body2"
+                        color="AppWorkspace"
+                        sx={{
+                            display: {
+                                xs: 'none',
+                                sm: 'inline'
+                            },
+                            cursor: 'pointer',
+                        }}
+                    >SignIn / SignUp</Typography>
+                        :
+                        <Avatar variant="circular" sx={{
+                            display: { xs: 'none', sm: 'inherit' },
+                            border: "2px solid #FFF",
+                            width: '50px',
+                            height: '50px',
+                            cursor: 'pointer'
+                        }} onClick={() => { setShowDropDown(prev => !prev); }}>
+                            {username?.split(" ").length > 1
+                                ? username.split(" ")[0][0] + username.split(" ")[1][0]
+                                : username.slice(0, 2)}
+                        </Avatar>
+                    } {showDropDown && <DropDownMenu />}
                 </Toolbar>
             </AppBar >
         </>
