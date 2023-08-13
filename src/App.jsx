@@ -14,7 +14,6 @@ import Explore from './pages/Explore';
 import Users from './pages/Users';
 
 //Authenticated Routes
-import Protected from './components/hoc/Protected'; //Protected routes
 import DashBoard from './pages/DashBoard';
 import AddService from './pages/AddService';
 
@@ -36,13 +35,9 @@ function App() {
 
           {/* Protected Routes*/}
           <Route path='/dashboard'
-            element={<AnimatePage><Protected>
-              <DashBoard />
-            </Protected></AnimatePage>} />
+            element={<AnimatePage><DashBoard /></AnimatePage>} />
           <Route path='/new-service'
-            element={<AnimatePage><Protected>
-              <AddService />
-            </Protected></AnimatePage>} />
+            element={<AnimatePage><AddService /></AnimatePage>} />
         </Wrapper>
       </AuthProvider>
     </BrowserRouter>

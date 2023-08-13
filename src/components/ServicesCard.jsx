@@ -7,11 +7,14 @@ import { TextField } from "@mui/material";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const InitialContent = ({
-    name, description, price, duration, categories, categoriesMap, setClicked
+    name, description, price, duration, categories, categoriesMap, setClicked, isClient, isProvider
 }) => {
-
     return (
         <div onClick={() => setClicked()} className="initial">
+            {isClient && <h2 className="active-contract">
+                You have an active contract with this samurai!</h2>}
+            {isProvider && <h2 className="active-contract">
+                You&apos;re the one providing this awesome service!</h2>}
             <img src="src/assets/landing.jpg" alt="" />
             <h2>SAMURAI: {name}</h2>
             <p>Price per day: <strong>${price / 100}</strong></p>
@@ -37,6 +40,8 @@ InitialContent.propTypes = {
     categories: PropTypes.array,
     categoriesMap: PropTypes.object,
     setClicked: PropTypes.func,
+    isProvider: PropTypes.bool,
+    isClient: PropTypes.bool,
 };
 
 
@@ -147,14 +152,18 @@ FinalCard.propTypes = {
     form: PropTypes.object,
 };
 
-const ServicesCard = ({ id, username, email, phone, description, price, duration, categories, categoriesMap }) => {
+const ServicesCard = (
+    { id, username, email, phone, description, price, duration, categories, categoriesMap, isProvider, isClient }
+) => {
     const [clicked, setClicked] = useState(false);
     const [finishProposal, setFinishProposal] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [form, setForm] = useState({
         requirements: "",
         message: "",
-    })
+        duration,
+        totalPrice: price * duration,
+    });
 
     const axiosPrivate = useAxiosPrivate();
 
@@ -188,6 +197,7 @@ const ServicesCard = ({ id, username, email, phone, description, price, duration
                     setClicked={() => setClicked(prev => !prev)}
                     name={name} description={description} price={price}
                     duration={duration} categories={categories} categoriesMap={categoriesMap}
+                    isClient={isClient} isProvider={isProvider}
                 />
                     : <ContractService
                         form={form}
@@ -287,6 +297,11 @@ const CardContainer = styled.div`
             background: #FFF;
         }
     }
+
+    .active-contract {
+        background-color: #A32728;
+        color: #FFF;
+    }
 `;
 
 ServicesCard.propTypes = {
@@ -299,6 +314,8 @@ ServicesCard.propTypes = {
     duration: PropTypes.number,
     categories: PropTypes.array,
     categoriesMap: PropTypes.object,
+    isProvider: PropTypes.bool,
+    isClient: PropTypes.bool,
 };
 
 export default ServicesCard;

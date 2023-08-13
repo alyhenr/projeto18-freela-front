@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import useAuth from "./useAuth";
 import axios from "../api/axios";
+import protectedRoutes from "../helpers/protectedRoutes";
 
 const useRefreshToken = () => {
     const { setAuth } = useAuth();
@@ -18,7 +19,9 @@ const useRefreshToken = () => {
 
             return response.data.newAccessToken;
         } catch (err) {
-            navigate("/auth");
+            if (protectedRoutes.includes(location.pathname)) {
+                navigate("/auth");
+            }
             console.log(err.response);
         }
     }
