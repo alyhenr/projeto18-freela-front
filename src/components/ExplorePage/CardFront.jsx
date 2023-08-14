@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 
+import defaultImg from "../../assets/landing.jpg";
+
 const CardFront = ({
   name, description, price, duration, categories, categoriesMap, setClicked, isClient, isProvider
 }) => {
@@ -9,7 +11,7 @@ const CardFront = ({
         You have an active contract with this samurai!</h2>
         : isProvider ? <h2 className="active-contract">
           You&apos;re the one providing this awesome service!</h2> : <></>}
-      <img src="src/assets/landing.jpg" alt="" />
+      <img src={defaultImg} alt="default card" />
       <h2>SAMURAI: {name}</h2>
       <p>Price per day: <strong>${price / 100}</strong></p>
       <p>Avarage duration: <strong>
