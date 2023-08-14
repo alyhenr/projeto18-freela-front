@@ -60,7 +60,7 @@ const Form = () => {
                         }
                     );
 
-                    setAuth(response.data);
+                    setAuth({ loggedIn: true, ...response.data });
                     navigate("/dashboard");
                 } catch (err) {
                     console.log(err.response);

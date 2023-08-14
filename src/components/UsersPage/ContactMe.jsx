@@ -8,6 +8,8 @@ import { Box, Typography } from "@mui/material";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 
+import useShowRequestResult from "../../hooks/useShowRequestResult";
+
 const ContactMe = ({ setShowContact, id, username, phone, email }) => {
     const navigate = useNavigate();
 
@@ -18,20 +20,14 @@ const ContactMe = ({ setShowContact, id, username, phone, email }) => {
         success: false,
         message: "",
     });
+    const showRequestResult = useShowRequestResult(setSubmitting, setRequestResult);
 
     const { auth } = useAuth();
     const axiosPrivate = useAxiosPrivate();
 
-    const showRequestResult = (result, message) => {
-        setRequestResult(prev => ({ ...prev, [result]: true, message }));
-        setTimeout(() => {
-            setRequestResult(prev => ({ ...prev, [result]: false, message }))
-        }, 2000);
-        setSubmitting(false);
-    };
-
     const sendMessage = async () => {
         setSubmitting(true);
+
         if (message === "") {
             showRequestResult("err", "You cannot send an empty message.");
             return;
@@ -43,7 +39,7 @@ const ContactMe = ({ setShowContact, id, username, phone, email }) => {
                 receiverId: id,
                 message,
             });
-            showRequestResult("success");
+            showRequestResult("success", "Message sent");
         } catch (err) {
             showRequestResult("err", "There was a problemn sending the message, try again in some seconds...");
             console.log(err);

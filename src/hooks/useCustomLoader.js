@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import useAuth from "./useAuth";
 
 const useCustomLoader = ({ loaderFunction }) => {
+    const { auth } = useAuth();
     const [response, setResponse] = useState({
         data: undefined,
         err: false,
@@ -14,7 +16,7 @@ const useCustomLoader = ({ loaderFunction }) => {
                 err: false,
                 loading: false,
             })).catch(() => setResponse({ data: null, err: true, loading: false }));
-    }, []);
+    }, [auth]);
 
     return response;
 }
