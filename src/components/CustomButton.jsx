@@ -9,7 +9,7 @@ const CustomButton = ({
     guideBtn,
     getStartedBtn,
 
-    //callback to be executed when button is clicke, passed
+    //callback to be executed when button is clicked, passed
     //as props from the parent Component
     callback
 }) => {

@@ -3,6 +3,7 @@ import { Container, Box, styled, Typography } from "@mui/material";
 
 import CustomButton from "../components/CustomButton";
 import Form from "../components/Form";
+import useAuth from "../hooks/useAuth";
 
 const LandingPage = () => {
     const CustomBox = styled(Box)(({ theme }) => ({
@@ -26,7 +27,7 @@ const LandingPage = () => {
             fontSize: "40px",
         },
     }));
-
+    const { auth } = useAuth();
     const navigate = useNavigate();
 
     return (
@@ -55,7 +56,7 @@ const LandingPage = () => {
                         >
                             Create your account, become a samurai, offer your services and find other samurais to team up!
                         </Typography>
-                        <div onClick={() => { navigate("/explore"); }}>
+                        <div onClick={() => { navigate("/catalog"); }}>
                             <CustomButton
                                 backgroundColor="#0F1B4C"
                                 color="#fff"
@@ -65,7 +66,24 @@ const LandingPage = () => {
                         </div>
                     </Box>
                     <Box sx={{ flex: "1.25", width: { sm: '100%' } }}>
-                        <Form />
+                        {auth.loggedIn
+                            ? <> <Title textAlign="center" variant="h1" p={2}>
+                                Welcome {auth.username}!
+                            </Title>
+                                <Box
+                                    display="flex"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    onClick={() => { navigate("/dashboard"); }}>
+                                    <CustomButton
+                                        backgroundColor="#0F1B4C"
+                                        color="#fff"
+                                        buttonText="Go to my dashboard"
+                                        heroBtn={true}
+                                    />
+                                </Box></>
+                            : <Form />
+                        }
                     </Box>
                 </CustomBox>
             </Container>

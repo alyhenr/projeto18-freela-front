@@ -14,8 +14,9 @@ import Explore from './pages/Explore/Explore';
 import Users from './pages/Users/Users';
 
 //Authenticated Routes
-import DashBoard from './pages/DashBoard';
 import AddService from './pages/AddService';
+import User from './pages/User/User';
+import DashBoard from './pages/DashBoard/DashBoard';
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
             element={<AnimatePage><Explore /></AnimatePage>} />
           <Route path='/users'
             element={<AnimatePage><Users /></AnimatePage>} />
+          <Route path='/user/:id'
+            element={<AnimatePage><User /></AnimatePage>} />
 
           {/* Protected Routes*/}
           <Route path='/dashboard'

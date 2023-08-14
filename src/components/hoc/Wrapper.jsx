@@ -21,7 +21,7 @@ const Wrapper = ({ children }) => {
         const getUserData = async () => { await refresh(); }
         getUserData();
     }, [auth.loggedIn]);
-    console.log(auth);
+
     return (
         <Container sx={{
             alignItems: 'center',

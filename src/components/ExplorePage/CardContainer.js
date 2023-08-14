@@ -60,7 +60,6 @@ export default styled.div`
             background: #A32728;
             color: #FFF;
             cursor: pointer;
-
         }
     }
 

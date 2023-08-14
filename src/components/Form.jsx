@@ -11,6 +11,7 @@ import { signInSchema, signUpSchema } from '../helpers/schemas';
 import converToTitleCase from "../helpers/convertToTitleCase";
 
 import CustomGrid from './CustomGrid';
+import useShowRequestResult from '../hooks/useShowRequestResult';
 
 const reducer = (prevState, { type, target, checkbox = false }) => {
     if (type === 'toggle_form') {
@@ -35,10 +36,17 @@ const reducer = (prevState, { type, target, checkbox = false }) => {
 const Form = () => {
     const [formState, dispatch] = useReducer(reducer, {
         login: true,
-        data: {},
+        data: {
+            samurai: false,
+        },
     });
     const [submitting, setSubmitting] = useState(false);
-
+    const [requestResult, setRequestResult] = useState({
+        err: false,
+        succes: false,
+        message: "",
+    });
+    const showRequestResult = useShowRequestResult(setSubmitting, setRequestResult);
     const { setAuth } = useAuth();
     const navigate = useNavigate();
 
@@ -48,7 +56,8 @@ const Form = () => {
 
         const schema = formState.login ? signInSchema : signUpSchema;
         try {
-            await schema.validate(formState.data);
+            const schemaResult = await schema.validate(formState.data)
+            console.log(schemaResult, "here");
 
             if (formState.login) {
                 try {
@@ -63,6 +72,10 @@ const Form = () => {
                     setAuth({ loggedIn: true, ...response.data });
                     navigate("/dashboard");
                 } catch (err) {
+                    if (err.response.status === 401) {
+                        console.log(err.response.data);
+                        showRequestResult("err", err.response.data);
+                    }
                     console.log(err.response);
                 }
             } else {
@@ -72,15 +85,20 @@ const Form = () => {
 
                     await axios.post("/signup", { ...body });
 
-                    dispatch({ type: 'toggle_form' })
+                    dispatch({ type: 'toggle_form' });
+                    showRequestResult("success", "Account created! You can sign in now!");
                 } catch (err) {
+                    if (err.response.status === 409) {
+                        showRequestResult("err", "Email already registered.")
+                    } else if (err.response.status === 422) {
+                        showRequestResult("err", err.response.data);
+                    }
                     console.log(err.response);
                 }
             }
         } catch (err) {
-            console.log(err.response);
+            showRequestResult("err", err.message);
         }
-
         setSubmitting(false);
     };
 
@@ -166,6 +184,14 @@ const Form = () => {
                 >
                     {formState.login ? "Don't" : "Already"} have an account? {formState.login ? "Sign Up" : "Sign In"}
                 </Typography>
+                {
+                    (requestResult.err || requestResult.success) &&
+                    <Typography color={requestResult.err && "red"
+                        || requestResult.success && "green"}
+                    >
+                        {requestResult.message}
+                    </Typography>
+                }
                 <Button
                     disabled={submitting}
                     type="submit"

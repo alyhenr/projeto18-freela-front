@@ -24,7 +24,7 @@ CustomLoading.propTypes = {
     err: PropTypes.bool,
     loading: PropTypes.bool,
     message: PropTypes.string,
-    children: PropTypes.object,
+    children: PropTypes.any,
 }
 
 export default CustomLoading;
