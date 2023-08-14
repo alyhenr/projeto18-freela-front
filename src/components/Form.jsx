@@ -57,12 +57,13 @@ const Form = () => {
         const schema = formState.login ? signInSchema : signUpSchema;
         try {
             const schemaResult = await schema.validate(formState.data)
-            console.log(schemaResult, "here");
+            console.log(schemaResult);
 
             if (formState.login) {
+                const body = { ...formState.data };
+                delete body.samurai;
                 try {
-                    const response = await axios.post("/signin",
-                        { ...formState.data },
+                    const response = await axios.post("/signin", body,
                         {
                             headers: { 'Content-Type': 'application/json' },
                             withCredentials: true
@@ -76,7 +77,6 @@ const Form = () => {
                         console.log(err.response.data);
                         showRequestResult("err", err.response.data);
                     }
-                    console.log(err.response);
                 }
             } else {
                 try {
@@ -89,11 +89,11 @@ const Form = () => {
                     showRequestResult("success", "Account created! You can sign in now!");
                 } catch (err) {
                     if (err.response.status === 409) {
-                        showRequestResult("err", "Email already registered.")
+                        console.log(err.response);
+                        showRequestResult("err", err.response.data)
                     } else if (err.response.status === 422) {
                         showRequestResult("err", err.response.data);
                     }
-                    console.log(err.response);
                 }
             }
         } catch (err) {
@@ -175,7 +175,7 @@ const Form = () => {
                         onChange={ev => dispatch({ type: 'update_field', target: ev.target })}
                         value={formState.data.description || ""} />
                 </div>}
-                <Typography alignSelf="center" variant='h6' color="InfoBackground" sx={{
+                <Typography alignSelf="center" variant='h6' color="ActiveBorder" sx={{
                     cursor: 'pointer',
                     ":hover": {
                         color: "CaptionText"

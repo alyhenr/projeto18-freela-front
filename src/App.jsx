@@ -17,6 +17,7 @@ import Users from './pages/Users/Users';
 import AddService from './pages/AddService';
 import User from './pages/User/User';
 import DashBoard from './pages/DashBoard/DashBoard';
+import Inbox from './pages/Inbox/Inbox';
 
 function App() {
 
@@ -41,6 +42,8 @@ function App() {
             element={<AnimatePage><DashBoard /></AnimatePage>} />
           <Route path='/new-service'
             element={<AnimatePage><AddService /></AnimatePage>} />
+          <Route path='/inbox'
+            element={<AnimatePage><Inbox /></AnimatePage>} />
         </Wrapper>
       </AuthProvider>
     </BrowserRouter>

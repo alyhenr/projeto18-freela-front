@@ -15,7 +15,7 @@ const CardFront = ({
       <p>Avarage duration: <strong>
         {duration} {duration > 1 ? "days" : "day"}
       </strong></p>
-      <p><strong>Details:</strong> {description} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt, quidem! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi fugit odio tenetur consectetur quos quis, laboriosam temporibus. Voluptatibus, iste tenetur!</p>
+      <p><strong>Details:</strong> {description}</p>
       <div>
         <button>SEE MORE DETAILS</button>
         <strong>

@@ -7,6 +7,7 @@ import CustomGrid from "../components/CustomGrid";
 
 import categoriesMap from "../helpers/categoriesMap";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useShowRequestResult from "../hooks/useShowRequestResult";
 
 const AddService = () => {
     const [categories, setCategories] = useState({
@@ -19,10 +20,19 @@ const AddService = () => {
         price: "",
         duration: "",
     });
+    const [submitting, setSubmitting] = useState(false);
+    const [requestResponse, setRequestResponse] = useState({
+        err: false,
+        success: false,
+        message: "",
+    });
+    const showRequestResult = useShowRequestResult(setSubmitting, setRequestResponse);
 
     const axiosPrivate = useAxiosPrivate();
     const handleSubmit = async ev => {
         ev.preventDefault();
+
+        if (details.price > 10000) return;
 
         const body = {
             ...details,
@@ -40,8 +50,10 @@ const AddService = () => {
                 .post("/new-service", body, {
                     signal: controller.signal,
                 })
+            showRequestResult("success", "Service added! You can check it the EXPLORE session!");
             console.log(response.data);
         } catch (err) {
+            showRequestResult("err", err.response.data[0]);
             console.error(err.response.data);
         }
     };
@@ -68,9 +80,15 @@ const AddService = () => {
                         width: "130px"
                     }}>
                         <Typography>Price per day ($): </Typography>
+                        {details.price > 10000 && <Typography
+                            color="red"
+                        >
+                            The maximum allowed price per day is 10,000 in the moment...
+                        </Typography>}
                         <CurrencyInput
                             className="currency-input"
                             name='price'
+                            max={10000}
                             placeholder="$ Daily"
                             // defaultValue={}
                             decimalsLimit={2}
@@ -100,8 +118,21 @@ const AddService = () => {
                         <FormControlLabel name="it" control={<Checkbox color="error" />} label="IT" />
                     </FormGroup>
                 </ListItem>
+                {
+                    (requestResponse.err &&
+                        <Typography
+                            color="red"
+                        >{requestResponse.message}</Typography>)
+                    || (requestResponse.success &&
+                        <Typography
+                            color="green"
+                        >{requestResponse.message}</Typography>)
+                }
             </Stack>
-            <Button variant="contained" onClick={ev => handleSubmit(ev)}>Add new service</Button>
+            <Button
+                disabled={submitting}
+                variant="contained"
+                onClick={ev => handleSubmit(ev)}>Add new service</Button>
         </CustomGrid>
     )
 }

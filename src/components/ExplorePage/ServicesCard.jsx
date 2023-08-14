@@ -52,6 +52,7 @@ const ServicesCard = (
             setTimeout(() => {
                 setClicked(false);
                 setFinishProposal(false);
+                location.reload();
             }, 1500);
         } catch (err) {
             console.log(err.response);

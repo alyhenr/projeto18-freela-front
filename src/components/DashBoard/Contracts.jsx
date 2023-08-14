@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const Contracts = ({ contracts }) => {
     const [provider, setProvider] = useState(true);
-
+    console.log(contracts);
     return (
         contracts.provider !== null && contracts.client !== null ?
             <Stack direction="column">
@@ -36,11 +36,35 @@ const Contracts = ({ contracts }) => {
                             ${contract.total_price / 100}</Typography>
                     </Container> : <></>)}
             </Stack>
-            : <Container>
+            : (contracts.provider !== null && contracts.provider
+                .map(contract => <Container key={contract.id}>
+                    <Typography><strong>You are the provider: </strong></Typography>
+                    <Typography><strong>Requirements:</strong>
+                        {contract.requirements}</Typography>
+                    <Typography><strong>Start date:</strong>
+                        {dayjs(contract.start_date).format("DD/MM/YYYY")}</Typography>
+                    <Typography><strong>Due date:</strong>
+                        {dayjs(contract.due_date).format("DD/MM/YYYY")}</Typography>
+                    <Typography><strong>To receive:</strong>
+                        ${contract.total_price / 100}</Typography>
+                </Container>))
+            || (contracts.client && contracts.client
+                .map(contract => <Container key={contract.id}>
+                    <Typography><strong>You are the client: </strong></Typography>
+                    <Typography><strong>Requirements:</strong>
+                        {contract.requirements}</Typography>
+                    <Typography><strong>Start date:</strong>
+                        {dayjs(contract.start_date).format("DD/MM/YYYY")}</Typography>
+                    <Typography><strong>Due date:</strong>
+                        {dayjs(contract.due_date).format("DD/MM/YYYY")}</Typography>
+                    <Typography><strong>To pay:</strong>
+                        ${contract.total_price / 100}</Typography>
+                </Container>)) ||
+            <Container>
                 <Typography>
                     You don&apos;t have any active contracts.
                 </Typography>
-                <Link to="/explore">
+                <Link to="/catalog">
                     <button style={{
                         width: "80%"
                     }}>

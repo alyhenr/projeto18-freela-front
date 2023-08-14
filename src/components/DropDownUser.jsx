@@ -20,9 +20,6 @@ const DropDownUser = () => {
 
     return (
         <Container>
-            <Link to={"/profile"}>
-                <Button variant="outlined">Edit Profile</Button>
-            </Link>
             <Link to={"/inbox"}>
                 <Button variant="outlined">Inbox</Button>
             </Link>
