@@ -47,7 +47,7 @@ const Explore = () => {
                             duration={service.duration}
                             categories={service.categories}
                             categoriesMap={catalog.categoriesMap}
-                            isProvider={service.id === userId}
+                            isProvider={service.userid === userId}
                             isClient={Boolean(catalog.userContracts
                                 .find(contract =>
                                     contract.client_id === userId

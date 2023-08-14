@@ -15,10 +15,11 @@ const useRefreshToken = () => {
             });
 
             console.log("Getting a new access token... ");
-            setAuth(response.data);
+            setAuth({ ...response.data, loggedIn: true });
 
             return response.data.newAccessToken;
         } catch (err) {
+            setAuth({ loggedIn: false });
             if (protectedRoutes.includes(location.pathname)) {
                 navigate("/auth");
             }

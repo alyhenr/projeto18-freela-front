@@ -11,10 +11,10 @@ const InitialContent = ({
 }) => {
     return (
         <div onClick={() => setClicked()} className="initial">
-            {isClient && <h2 className="active-contract">
-                You have an active contract with this samurai!</h2>}
-            {isProvider && <h2 className="active-contract">
-                You&apos;re the one providing this awesome service!</h2>}
+            {isClient ? <h2 className="active-contract">
+                You have an active contract with this samurai!</h2>
+                : isProvider ? <h2 className="active-contract">
+                    You&apos;re the one providing this awesome service!</h2> : <></>}
             <img src="src/assets/landing.jpg" alt="" />
             <h2>SAMURAI: {name}</h2>
             <p>Price per day: <strong>${price / 100}</strong></p>

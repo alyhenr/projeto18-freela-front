@@ -1,12 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { styled } from "styled-components";
 import { Button } from "@mui/material";
 
+import useLogout from "../hooks/useLogout";
+
 const DropDownUser = () => {
+    const logout = useLogout();
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
-
+        try {
+            await logout();
+            navigate("/");
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -18,7 +27,7 @@ const DropDownUser = () => {
                 <Button variant="outlined">Inbox</Button>
             </Link>
             <Button
-                onClick={() => handleLogout()}
+                onClick={handleLogout}
                 variant="outlined">Logout</Button>
         </Container>
     )

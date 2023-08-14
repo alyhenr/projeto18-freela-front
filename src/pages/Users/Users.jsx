@@ -21,14 +21,16 @@ const Users = () => {
             loading={loading}
             message={"The samurais of our team are on their way..."}
         >
-            <Grid container gap={2} justifyContent="center">
+            <Grid container gap={2} justifyContent="center" alignItems="center">
                 {users && users.map(user => (<Box key={user.id} width={
-                    { xs: 1, sm: 0.45 }
-                }>
+                    { xs: 0.8, sm: 0.5, md: 0.4, lg: 0.3 }
+                } sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <ProfileCard
+                        id={user.id}
                         username={user.username.split(" ")[0] + " " +
                             (user.username.split(" ")[1] ? user.username.split(" ")[1] : "")}
                         city={user.city}
+                        email={user.email}
                         phone={user.phone}
                     />
                 </Box>))}

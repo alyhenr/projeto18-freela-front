@@ -13,21 +13,24 @@ import DropDownMenu from "./DropDownMenu";
 const NavBar = () => {
     const navigate = useNavigate();
 
-    const { auth, auth: { username } } = useAuth();
-
-    const [loggedIn, setLoggedIn] = useState(false);
+    const { auth } = useAuth();
     const [dropDown, setDropDown] = useState({
         user: false,
         menu: false,
     });
 
-    useEffect(() => { setLoggedIn(Object.keys(auth).length > 0) }, [auth])
+    useEffect(() => {
+        setDropDown({
+            user: false,
+            menu: false,
+        })
+    }, [location.pathname])
 
     return (
         <>
             <CssBaseline />
             <AppBar sx={{
-                position: "relative",
+                position: "fixed",
                 backgroundColor: "#191F4D",
                 borderEndEndRadius: "10px",
                 borderBottomLeftRadius: "10px",
@@ -60,7 +63,7 @@ const NavBar = () => {
                                 FIND A SAMURAI
                             </Button>
                         </Link>
-                        {loggedIn && <>
+                        {auth.loggedIn && <>
                             <Link to={"/new-service"}>
                                 <Button color="inherit">
                                     ADD A NEW SERVICE
@@ -89,8 +92,8 @@ const NavBar = () => {
                         }}
                         fontSize="large"
                     />
-                    {dropDown.menu && <DropDownMenu loggedIn={loggedIn} />}
-                    {!loggedIn ? <Typography
+                    {dropDown.menu && <DropDownMenu loggedIn={auth.loggedIn} />}
+                    {!auth.loggedIn ? <Typography
                         onClick={() => { navigate("/auth"); }}
                         variant="body2"
                         color="AppWorkspace"
@@ -111,11 +114,11 @@ const NavBar = () => {
                                 user: !prev.user,
                             }));
                         }}>
-                            {username?.split(" ").length > 1
-                                ? username.split(" ")[0][0] + username.split(" ")[1][0]
-                                : username.slice(0, 2)}
+                            {auth.username?.split(" ").length > 1
+                                ? auth.username.split(" ")[0][0] + auth.username.split(" ")[1][0]
+                                : auth.username.slice(0, 2)}
                         </Avatar>
-                    } {dropDown.user && <DropDownUser />}
+                    } {dropDown.user && auth.loggedIn && <DropDownUser />}
                 </Toolbar>
             </AppBar >
         </>

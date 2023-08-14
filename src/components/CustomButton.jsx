@@ -8,6 +8,10 @@ const CustomButton = ({
     heroBtn,
     guideBtn,
     getStartedBtn,
+
+    //callback to be executed when button is clicke, passed
+    //as props from the parent Component
+    callback
 }) => {
     const CustomButton = styled(Button)(({ theme }) => ({
         backgroundColor: backgroundColor,
@@ -35,7 +39,9 @@ const CustomButton = ({
         },
     }));
 
-    return <CustomButton>{buttonText}</CustomButton>;
+
+
+    return <CustomButton onClick={callback}>{buttonText}</CustomButton>;
 };
 
 CustomButton.propTypes = {
@@ -44,7 +50,8 @@ CustomButton.propTypes = {
     buttonText: PropTypes.string,
     heroBtn: PropTypes.bool,
     guideBtn: PropTypes.bool,
-    getStartedBtn: PropTypes.bool
+    getStartedBtn: PropTypes.bool,
+    callback: PropTypes.func,
 };
 
 export default CustomButton;
