@@ -10,21 +10,20 @@ import Container from "./Container";
 
 const Contracts = ({ contracts: { provider, client } }) => {
     const [isProvider, setIsProvider] = useState(true);
-    const [contractsToRender] = useState(isProvider ? provider : client);
+    const [contractsToRender, setContractsToRender] = useState(isProvider ? provider : client);
 
     const navigate = useNavigate();
-
     return (
         <Stack direction="column">
             <Container style={{ flexDirection: "row" }}>
                 <button
                     className={isProvider ? "selected" : ""}
-                    onClick={() => setIsProvider(true)}>
+                    onClick={() => { setIsProvider(true); setContractsToRender(provider) }}>
                     Provider
                 </button>
                 <button
                     className={!isProvider ? "selected" : ""}
-                    onClick={() => setIsProvider(false)}>
+                    onClick={() => { setIsProvider(false); setContractsToRender(client) }}>
                     Client
                 </button>
             </Container>
