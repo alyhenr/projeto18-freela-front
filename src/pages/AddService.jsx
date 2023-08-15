@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, ListItem, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, ListItem, Stack, TextField, Typography } from "@mui/material";
 import CurrencyInput from "react-currency-input-field";
 
 import CustomGrid from "../components/CustomGrid";
@@ -10,15 +10,11 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useShowRequestResult from "../hooks/useShowRequestResult";
 
 const AddService = () => {
-    const [categories, setCategories] = useState({
-        'ml': false,
-        'bc': false,
-        'it': false,
-    });
     const [details, setDetails] = useState({
         description: "",
-        price: "",
-        duration: "",
+        price: 0,
+        duration: 0,
+        categories: [],
     });
     const [submitting, setSubmitting] = useState(false);
     const [requestResponse, setRequestResponse] = useState({
@@ -29,21 +25,16 @@ const AddService = () => {
     const showRequestResult = useShowRequestResult(setSubmitting, setRequestResponse);
 
     const axiosPrivate = useAxiosPrivate();
+
     const handleSubmit = async ev => {
         ev.preventDefault();
-
-        if (details.price > 10000) return;
-
         const body = {
             ...details,
-            //Convert to cents to store in database
-            price: Number(details.price) * 100,
+            price: Number(details.price),
             duration: Number(details.duration),
-            categories: Object.keys(categories)
-                .filter(category => Object.keys(categoriesMap).includes(category) &&
-                    categories[category]).map(cat => categoriesMap[cat])
         };
-        console.log(body);
+
+        if (body.price > 10000) return;
         try {
             const controller = new AbortController();
             const response = await axiosPrivate
@@ -57,7 +48,7 @@ const AddService = () => {
             console.error(err.response.data);
         }
     };
-
+    console.log(details);
     return (
         <CustomGrid bgColor="#FFF">
             <Stack direction="column" spacing={2} sx={{ width: '100%' }}>
@@ -74,11 +65,9 @@ const AddService = () => {
                 <ListItem sx={{
                     display: 'flex', flexDirection: {
                         xs: 'column', sm: 'row'
-                    }, gap: '50px'
+                    }, gap: '36px'
                 }}>
-                    <Box sx={{
-                        width: "130px"
-                    }}>
+                    <Box width={{ xs: "90%", sm: "20%" }}>
                         <Typography>Price per day ($): </Typography>
                         {details.price > 10000 && <Typography
                             color="red"
@@ -90,12 +79,11 @@ const AddService = () => {
                             name='price'
                             max={10000}
                             placeholder="$ Daily"
-                            // defaultValue={}
                             decimalsLimit={2}
                             onValueChange={(value, name) => setDetails(prev => ({ ...prev, [name]: value }))}
                         />
                     </Box>
-                    <Box>
+                    <Box width={{ xs: "90%", sm: "40%" }}>
                         <TextField
                             type="number"
                             name='duration'
@@ -108,15 +96,37 @@ const AddService = () => {
                             label="Avarage duration (days)"
                             variant="standard" />
                     </Box>
-                    <FormGroup onClick={ev => {
-                        setCategories(prev => ({
-                            ...prev, [ev.target.name]: !prev[ev.target.name]
-                        }))
-                    }}>
-                        <FormControlLabel name="ml" control={<Checkbox color="error" />} label="Machine Learning" />
-                        <FormControlLabel name="bc" control={<Checkbox color="error" />} label="BlockChain" />
-                        <FormControlLabel name="it" control={<Checkbox color="error" />} label="IT" />
-                    </FormGroup>
+                    <Box width={{ xs: "90%", sm: "40%" }}>
+                        <Typography variant="h6">Categories: </Typography>
+                        {Object.keys(categoriesMap).map(category =>
+                            <Box key={category}
+                                sx={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: { xs: "column", md: "row" },
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <label htmlFor={category} style={{ cursor: "pointer" }}>
+                                    {categoriesMap[category]}
+                                </label>
+                                <input
+                                    style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        boxShadow: "1px 1px grey",
+                                        cursor: "pointer",
+                                    }}
+                                    type="checkbox" name={category} id={category}
+                                    onClick={ev => setDetails(prev => ({
+                                        ...prev, categories: ev.target.checked
+                                            ? [...prev.categories, categoriesMap[ev.target.name]]
+                                            : prev.categories.filter(c => c !== categoriesMap[ev.target.name])
+                                    }))}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 </ListItem>
                 {
                     (requestResponse.err &&
@@ -137,4 +147,4 @@ const AddService = () => {
     )
 }
 
-export default AddService
+export default AddService;
