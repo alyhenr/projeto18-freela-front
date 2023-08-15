@@ -30,11 +30,11 @@ const AddService = () => {
         ev.preventDefault();
         const body = {
             ...details,
-            price: Number(details.price),
+            price: Number(details.price) * 100, //cents
             duration: Number(details.duration),
         };
 
-        if (body.price > 10000) return;
+        if (body.price > 1000000) return;
         try {
             const controller = new AbortController();
             const response = await axiosPrivate
@@ -48,7 +48,7 @@ const AddService = () => {
             console.error(err.response.data);
         }
     };
-    console.log(details);
+
     return (
         <CustomGrid bgColor="#FFF">
             <Stack direction="column" spacing={2} sx={{ width: '100%' }}>
