@@ -43,10 +43,10 @@ const Contracts = ({ contracts: { provider, client } }) => {
                 </Typography>
             </Container>) || <Container>
                     <Typography>
-                        {isProvider ? "You don't provide any service yet..." : "You have not contracted any service..."}
+                        {isProvider ? "No clients yet..." : "You have not contracted any service..."}
                         <button
                             onClick={() => navigate(isProvider ? "/new-service" : "/catalog")}
-                        >{isProvider ? "Add a service!" : "Go check the catalog!"}
+                        >{isProvider ? "Add a new service!" : "Go check the catalog!"}
                         </button>
                     </Typography>
                 </Container>}
